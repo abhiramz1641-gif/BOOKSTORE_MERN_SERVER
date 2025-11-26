@@ -1,3 +1,11 @@
+// import dotenv
+
+require("dotenv").config()
+
+// import DBfile
+require('./dBconnection')
+
+
 // import express 
 const express=require("express")
 
