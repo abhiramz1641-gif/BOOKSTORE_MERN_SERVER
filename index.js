@@ -15,6 +15,9 @@ const cors=require("cors")
 // import route
 const route=require("./routes")
 
+// import middleware
+// const appMiddleware=require('./middleware/appMiddleware')
+
 
 
 // create server 
@@ -24,6 +27,7 @@ const bookStoreServer=express()
 // server using cors
 bookStoreServer.use(cors())
 bookStoreServer.use(express.json())// parse json -- middleware
+// bookStoreServer.use(appMiddleware) //--middleware
 bookStoreServer.use(route)
 
 
