@@ -47,7 +47,6 @@ exports.addBookController = async (req, res) => {
 
 }
 
-
 exports.getHomeBookController = async (req, res) => {
 
     try {
@@ -67,12 +66,14 @@ exports.getAllBooks = async (req, res) => {
 
     const searchKey = req.query.search
     console.log(searchKey);
+    const email = req.payload
 
     const query = {
 
         title: {
             $regex: searchKey, $options: 'i'
-        }
+        },
+        userMail: { $ne: email }
 
     }
 
@@ -90,6 +91,56 @@ exports.getAllBooks = async (req, res) => {
 
 }
 
+exports.getAllBooksByUser = async (req, res) => {
+
+    const email = req.payload
+
+    try {
+
+        const allUserBooks = await books.find({userMail:email})
+        res.status(200).json(allUserBooks)
+
+    } catch (err) {
+
+        res.status(500).json(err)
+
+    }
+
+}
+
+exports.getAllBooksBroughtByUser = async (req, res) => {
+
+    const email = req.payload
+
+    try {
+
+        const allUserBroughtBooks = await books.find({brought:email})
+        res.status(200).json(allUserBroughtBooks)
+
+    } catch (err) {
+
+        res.status(500).json(err)
+
+    }
+
+}
+
+exports.getAllAdminBooks = async (req, res) => {
+
+    const searchKey = req.query.search
+    console.log(searchKey);
+    try {
+
+        const homeBooks = await books.find()
+        res.status(200).json(homeBooks)
+
+    } catch (err) {
+
+        res.status(500).json(err)
+
+    }
+
+}
 
 exports.getABook = async (req, res) => {
 
@@ -107,3 +158,39 @@ exports.getABook = async (req, res) => {
     }
 
 }
+
+exports.deleteABookController = async (req, res) => {
+
+    try {
+        const { id } = req.params
+        console.log(id);
+
+        await books.findByIdAndDelete({ _id: id })
+        res.status(200).json('Book deleted')
+
+    } catch (err) {
+
+        res.status(500).json(err)
+
+    }
+
+}
+
+exports.approveBookController = async (req, res) => {
+
+    const { _id, title, author, nop, imgUrl, price, discountPrice, abstract, publisher, language, isbn, category, brought, status, uploadImg, userMail } = req.body
+    console.log(_id, title, author, nop, imgUrl, price, discountPrice, abstract, publisher, language, isbn, category, brought, status, uploadImg, userMail);
+
+    try {
+
+        const existingBooks = await books.findByIdAndUpdate({ _id }, { _id, title, author, nop, imgUrl, price, discountPrice, abstract, publisher, language, isbn, category, brought, status: "approved", uploadImg, userMail }, { new: true })
+        res.status(200).json(existingBooks)
+
+    } catch (err) {
+
+        res.status(500).json(err)
+
+    }
+
+}
+
