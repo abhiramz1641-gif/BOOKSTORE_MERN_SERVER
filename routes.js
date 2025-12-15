@@ -41,6 +41,8 @@ route.get("/user-brought-books",jwtMiddleware,bookController.getAllBooksBroughtB
 
 route.delete("/delete-book/:id",bookController.deleteABookController)
 
+route.put("/make-payment",jwtMiddleware,bookController.makePaymentController)
+
 
 
 
