@@ -194,8 +194,8 @@ exports.makePaymentController = async (req, res) => {
             payment_method_types: ['card'],
             line_items: line_items,
             mode: 'payment',
-            success_url: 'http://localhost:5173/payment-success',
-            cancel_url: 'http://localhost:5173/payment-Error'
+            success_url: 'https://bookstore-mern-gilt.vercel.app/payment-success',
+            cancel_url: 'https://bookstore-mern-gilt.vercel.app/payment-Error'
         });
 
         console.log(session);
